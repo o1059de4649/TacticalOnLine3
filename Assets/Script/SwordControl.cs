@@ -35,7 +35,7 @@ public class SwordControl : MonoBehaviourPunCallbacks, IPunObservable
             Invoke("ColliderOffSwich", offTime);
         }
 
-        if (this.gameObject.name == "SH_Sword_A")
+        if (this.gameObject.name == "Sword1")
         {
             return;
         }
