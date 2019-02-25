@@ -50,6 +50,8 @@ public class CommandPlayer : MonoBehaviour
         public Transform effect_position;
         public GameObject instantiateObj;
         public float delay_instantiate_time;
+
+        public bool isBallEffect = false;
     }
     // Start is called before the first frame update
     void Start()
@@ -159,7 +161,7 @@ public class CommandPlayer : MonoBehaviour
     {
         yield return new WaitForSeconds(wait_time);
 
-        GameObject effect_obj = PhotonNetwork.Instantiate(skilldata[skillnumber].skill_name_forAnim, skilldata[skillnumber].effect_position.position, Quaternion.identity,0);
+        GameObject effect_obj = PhotonNetwork.Instantiate(skilldata[skillnumber].skill_name_forAnim, skilldata[skillnumber].effect_position.position,this.transform.rotation,0);
         effect_obj.gameObject.name =effect_obj.gameObject.name.Replace("(Clone)", "");
         if (effect_obj.name == "WaterDragon"||effect_obj.name == "FireDragon")
         {
@@ -167,7 +169,12 @@ public class CommandPlayer : MonoBehaviour
         }
         else
         {
-            effect_obj.GetComponent<SwordControl>()._teamNumber = movePlayer._teamNumber;
+            if (!skilldata[skillnumber].isBallEffect)
+            {
+                effect_obj.GetComponent<SwordControl>()._teamNumber = movePlayer._teamNumber;
+            }
+
+           
         }
        
 
@@ -176,8 +183,17 @@ public class CommandPlayer : MonoBehaviour
 
     
 
+    public void SuperArmorOn()
+    {
+        movePlayer._mp -= 500;
+        movePlayer.isSuperArmor = true;
+        Invoke("SuperArmorOff",10);
+    }
 
-
+    public void SuperArmorOff()
+    {
+        movePlayer.isSuperArmor = false;
+    }
 
     public void UpperCutSmash()
     {

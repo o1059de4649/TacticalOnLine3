@@ -8,6 +8,8 @@ TagManager:
   - Team1Player
   - Team2Body
   - Team2Player
+  - Ice
+  - LifeBall
   layers:
   - Default
   - TransparentFX

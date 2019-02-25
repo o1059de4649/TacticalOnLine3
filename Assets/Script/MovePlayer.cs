@@ -19,7 +19,7 @@ public class MovePlayer : MonoBehaviourPunCallbacks, IPunObservable
     public float v;
     public float h;
     public float _runSpeed, animSpeed = 1.5f, _moveTime_PushDashing, _up_Power_save, ground_time = 0, _gravity;
-    public bool isPushing = false, isStun = false, isSkillMoving = false, isFallStartToEnd = false, isGroundDown = false, isGround = true;
+    public bool isPushing = false, isStun = false, isSkillMoving = false, isFallStartToEnd = false, isGroundDown = false, isGround = true,isSuperArmor = false;
     public Rigidbody rb;
 
 
@@ -42,6 +42,9 @@ public class MovePlayer : MonoBehaviourPunCallbacks, IPunObservable
     public GameObject player_body;
 
     public int _teamNumber = 0;
+    public float stun_time = 0,stun_hold_time = 1;
+
+    public PSMeshRendererUpdater superArmor_effect_PS;
 
    public void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info)
     {
@@ -53,6 +56,9 @@ public class MovePlayer : MonoBehaviourPunCallbacks, IPunObservable
             stream.SendNext(_maxMp);
             stream.SendNext(_mp);
             stream.SendNext(_teamNumber);
+            stream.SendNext(isStun);
+            stream.SendNext(isSuperArmor);
+
         }
         else
         {
@@ -62,7 +68,8 @@ public class MovePlayer : MonoBehaviourPunCallbacks, IPunObservable
             _maxMp = (float)stream.ReceiveNext();
             _mp = (float)stream.ReceiveNext();
             _teamNumber = (int)stream.ReceiveNext();
-            
+            isStun = (bool)stream.ReceiveNext();
+            isSuperArmor = (bool)stream.ReceiveNext();
         }
     }
 
@@ -74,6 +81,8 @@ public class MovePlayer : MonoBehaviourPunCallbacks, IPunObservable
     // Start is called before the first frame update
     void Start()
     {
+        
+
         this.gameObject.name = this.gameObject.name.Replace("(Clone)", "");
         anim = GetComponentInChildren<Animator>();
 
@@ -111,10 +120,21 @@ public class MovePlayer : MonoBehaviourPunCallbacks, IPunObservable
     void Update()
         {
 
+        if (isSuperArmor)
+        {
+            superArmor_effect_PS.gameObject.SetActive(true);
+        }
+        else
+        {
+            superArmor_effect_PS.gameObject.SetActive(false);
+        }
+
         this.gameObject.tag = "Team" + _teamNumber.ToString() + "Player";
         player_body.gameObject.tag = "Team" + _teamNumber.ToString() + "Body";
         //他のプレイヤー
         if (!photonView.IsMine) return;
+
+        
 
         //死亡処理
         if (_life <= 0) {
@@ -132,6 +152,15 @@ public class MovePlayer : MonoBehaviourPunCallbacks, IPunObservable
             return;
         }
 
+        //Stun処理
+        if (isStun) {
+            
+            stun_time += Time.deltaTime;
+            if (stun_time > stun_hold_time) {
+                isStun = false;
+                stun_time = 0;
+            }
+        }
 
         //State管理
         _animatorStateInfo = this.anim.GetCurrentAnimatorStateInfo(0);
@@ -145,6 +174,13 @@ public class MovePlayer : MonoBehaviourPunCallbacks, IPunObservable
         if (_mp > _maxMp)
         {
             _mp = _maxMp;
+        }
+
+      
+
+        if (_life > _maxLife)
+        {
+            _life = _maxLife;
         }
 
         hpSlider.maxValue = _maxLife;
@@ -176,7 +212,9 @@ public class MovePlayer : MonoBehaviourPunCallbacks, IPunObservable
 
         //移動スキル全般の処理
         if (_animatorStateInfo.IsName("Base Layer.Sting") || _animatorStateInfo.IsName("Base Layer.GroundAttack") || _animatorStateInfo.IsName("Base Layer.PushDash")||
-            _animatorStateInfo.IsName("Base Layer.GroundFire") || _animatorStateInfo.IsName("Base Layer.IceSpike") || _animatorStateInfo.IsName("Base Layer.GroundMana"))
+            _animatorStateInfo.IsName("Base Layer.GroundFire") || _animatorStateInfo.IsName("Base Layer.IceSpike") || _animatorStateInfo.IsName("Base Layer.GroundMana")||
+             _animatorStateInfo.IsName("Base Layer.Issen")
+            )
         {
             
             _push_time -= Time.deltaTime;
@@ -189,6 +227,8 @@ public class MovePlayer : MonoBehaviourPunCallbacks, IPunObservable
             ForwardPushRB(_push_power);
 
         }
+
+
 
         //特定の時、動けないreturn
         if (isSkillMoving|| isStun|| _animatorStateInfo.IsName("Base Layer.Fall") || _animatorStateInfo.IsTag("AttackSkill"))
@@ -238,6 +278,8 @@ public class MovePlayer : MonoBehaviourPunCallbacks, IPunObservable
                 v = 1;
             }
 
+        
+
         anim.SetFloat("Speed", v);                          // Animator側で設定している"Speed"パラメタにvを渡す
         anim.SetFloat("Direction", h);                      // Animator側で設定している"Direction"パラメタにhを渡す
         anim.speed = animSpeed;
@@ -250,13 +292,18 @@ public class MovePlayer : MonoBehaviourPunCallbacks, IPunObservable
         // 移動方向にスピードを掛ける。ジャンプや落下がある場合は、別途Y軸方向の速度ベクトルを足す。
         rb.velocity = moveForward * _runSpeed + new Vector3(0, rb.velocity.y, 0);
 
+
+      
+
         // キャラクターの向きを進行方向に
         if (moveForward != Vector3.zero)
         {
             transform.rotation = Quaternion.LookRotation(moveForward);
         }
 
-  
+      
+
+        
 
     }
 
@@ -308,6 +355,7 @@ public class MovePlayer : MonoBehaviourPunCallbacks, IPunObservable
     //ダメージアニメーション、物理挙動
     public void DamageAnimation(bool isStrongSkill,float _up_Power,bool isGroundSkill)
     {
+        if (isSuperArmor) return;
 
         //up攻撃を受ける
         if (isStrongSkill)
@@ -424,6 +472,14 @@ public class MovePlayer : MonoBehaviourPunCallbacks, IPunObservable
             ground_time = 0;
             isGroundDown = false;
             isGround = false;
+        }
+    }
+
+    public void OnTriggerStay(Collider other)
+    {
+        if (other.gameObject.tag == "LifeBall")
+        {
+            _life += 10;
         }
     }
 

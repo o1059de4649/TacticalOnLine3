@@ -10,6 +10,7 @@ public class SkillButtonControl : MonoBehaviour,IPointerClickHandler
     public MovePlayer movePlayer;
 
     public float _button_hideTime;
+    public bool isClicked = false;
 
     public string[] skillname = { "Smash","Sting","Ground","FireWave","WaterDragon","FireDragon","GroundFire","IceSpike","GroundMana" };
     // Start is called before the first frame update
@@ -18,18 +19,18 @@ public class SkillButtonControl : MonoBehaviour,IPointerClickHandler
         this.gameObject.name = this.gameObject.name.Replace("(Clone)", "");
         commandPlayer = GetComponentInParent<CommandPlayer>();
         movePlayer = GetComponentInParent<MovePlayer>();
-        _button_hideTime = 0.1f;
+        _button_hideTime = 0.45f;
     }
 
     // Update is called once per frame
     void Update()
     {
-        
+      
     }
 
     public void OnPointerClick(PointerEventData pointerEventData)
     {
-        if (movePlayer._animatorStateInfo.IsTag("AttackSkill")|| movePlayer._animatorStateInfo.IsTag("Damage")|| movePlayer._animatorStateInfo.IsTag("Teleport")) return;
+        if (movePlayer._animatorStateInfo.IsTag("AttackSkill")|| movePlayer._animatorStateInfo.IsTag("Damage")|| movePlayer._animatorStateInfo.IsTag("Teleport")||isClicked) return;
 
         for (int i = 0;i < skillname.Length ;i++)
         {
@@ -40,23 +41,34 @@ public class SkillButtonControl : MonoBehaviour,IPointerClickHandler
                 Invoke("SetActiveOn", 5);
             }
         }
-       
+
+        if (this.gameObject.name == "SuperArmorButton" && movePlayer._mp > 500)
+        {
+            commandPlayer.SuperArmorOn();
+            Invoke("SetActiveOff", _button_hideTime);
+            Invoke("SetActiveOn", 5);
+        }
+
         if (this.gameObject.name == "UpperCutButton")
         {
             commandPlayer.UpperCutSmash();
             Invoke("SetActiveOff", _button_hideTime);
             Invoke("SetActiveOn", 5);
         }
-
+        isClicked = true;
     }
 
     void SetActiveOff()
     {
+        isClicked = false;
         this.gameObject.SetActive(false);
     }
 
     void SetActiveOn()
     {
         this.gameObject.SetActive(true);
+        
+
+        
     }
 }

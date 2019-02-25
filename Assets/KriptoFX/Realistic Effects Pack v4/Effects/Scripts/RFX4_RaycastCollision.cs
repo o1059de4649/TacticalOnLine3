@@ -2,6 +2,7 @@ using System;
 using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
+using Photon.Pun;
 
 public class RFX4_RaycastCollision : MonoBehaviour
 {
@@ -87,7 +88,9 @@ public class RFX4_RaycastCollision : MonoBehaviour
                 foreach (var effect in Effects) {
                     if (effect != null)
                     {
-                        var instance = Instantiate(effect, position, new Quaternion()) as GameObject;
+                        var instance = PhotonNetwork.Instantiate(effect.name, position, new Quaternion()) as GameObject;
+                        //custom
+                        instance.GetComponent<SwordControl>()._teamNumber = GameObject.Find("DataBase").GetComponent<DataBaseScript>()._TeamNumber;
                         var effectSettings = instance.GetComponent<RFX4_EffectSettings>();
                         var effectSettingsRoot = GetComponentInParent<RFX4_EffectSettings>();
                         if (effectSettings != null && effectSettingsRoot != null)

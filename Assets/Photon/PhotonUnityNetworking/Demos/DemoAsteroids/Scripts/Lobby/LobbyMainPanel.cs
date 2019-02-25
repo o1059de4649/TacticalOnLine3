@@ -162,6 +162,10 @@ namespace Photon.Pun.Demo.Asteroids
 
             myplayer.GetComponent<MovePlayer>()._teamNumber = _TeamNumber;
             start_Camera.GetComponent<Camera>().enabled = false;
+
+          
+                myplayer.transform.position = GameObject.Find("Team"+ _TeamNumber.ToString()+"ReSpawnPos").gameObject.transform.position;
+            
             //カスタム箇所
         }
 

@@ -27,7 +27,12 @@ public class SwordControl : MonoBehaviourPunCallbacks, IPunObservable
         data = GameObject.Find("DataBase").GetComponent<DataBaseScript>();
         this.gameObject.name = this.gameObject.name.Replace("(Clone)", "");
 
-        _power++;
+        if (_teamNumber == 0 && photonView.IsMine)
+        {
+            DesideTeamNumber();
+        }
+
+        
 
         if (isEffect)
         {
@@ -87,10 +92,17 @@ public class SwordControl : MonoBehaviourPunCallbacks, IPunObservable
         }
     }
 
+   
+    
+
     private void OnTriggerEnter(Collider other)
     {
-        
-        if (other.gameObject.tag == "Team" + _teamNumber.ToString() + "Body") return;
+
+        if (other.gameObject.tag == "Team" + _teamNumber.ToString() + "Body")
+        {
+           
+            return;
+        }
 
        
 
@@ -102,15 +114,28 @@ public class SwordControl : MonoBehaviourPunCallbacks, IPunObservable
             }
             
                 other.gameObject.GetComponentInParent<MovePlayer>().Damage(_power);
+
+
+            if (this.gameObject.tag == "Ice")
+            {
                 
-            
+               
+                other.gameObject.GetComponentInParent<MovePlayer>().isStun = true;
+                other.gameObject.GetComponentInParent<MovePlayer>().stun_hold_time = 6;
+            }
+
             Vector3 pre_gravity = other.GetComponentInParent<Rigidbody>().velocity;
             other.GetComponentInParent<Rigidbody>().velocity = new Vector3(0, 0, 0);
             
             other.gameObject.GetComponentInParent<MovePlayer>().DamageAnimation(isStrongSkill, _up_Power, isGroundSkill);
             this.gameObject.GetComponent<BoxCollider>().enabled = false;
+
+          
         }
     }
+
+  
+
     void ColliderOnSwich()
     {
 

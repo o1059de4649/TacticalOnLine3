@@ -23,7 +23,7 @@ namespace UnityStandardAssets.CrossPlatformInput
             cameraRoate_obj = GameObject.Find("DualTouchControls");
             cameraRotate = cameraRoate_obj.GetComponentInChildren<CameraRotate>();
 
-            camera_Distance = -7;
+            camera_Distance = this.transform.localPosition.z;
         }
 
         // Update is called once per frame
