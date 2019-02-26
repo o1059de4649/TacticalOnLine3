@@ -863,7 +863,7 @@ MonoBehaviour:
   isGroundSkill: 1
   _up_Power: 100
   isEffect: 1
-  onTime: 0
+  onTime: 0.1
   offTime: 2
   boxCollider: {fileID: 65719447500881126}
   _teamNumber: 0

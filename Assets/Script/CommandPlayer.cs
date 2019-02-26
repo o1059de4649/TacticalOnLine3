@@ -11,7 +11,7 @@ public class CommandPlayer : MonoBehaviour
     public Animator animator;
    AnimatorStateInfo _animatorStateInfo;
     public MovePlayer movePlayer;
-    float _recast_time,dash_power,_smash_recast_time,_upperCutSmash_recast_time,_sting_recast_time,_groundAttack_recast_time;
+    float dash_recast_time,dash_power,_smash_recast_time,_upperCutSmash_recast_time,_sting_recast_time,_groundAttack_recast_time;
 
     public float _skill_up_addForce_Power;
     public BoxCollider _sword_col;
@@ -33,7 +33,7 @@ public class CommandPlayer : MonoBehaviour
        public bool isGroundSkill;
         public float _swordPower;
        public float up_power;
-       public float recast_time;
+       public float recast_time,recast_wait_time;
         public float sword_OnTime;
         public float sword_OffTime;
 
@@ -66,17 +66,22 @@ public class CommandPlayer : MonoBehaviour
         sword_position = _sword_col.center;
 
         photonView = GetComponent<PhotonView>();
-        
+
+        for (int i = 0; i < skilldata.Length; i++)
+        {
+            skilldata[i].recast_time = skilldata[i].recast_wait_time;
+        }
     }
 
     // Update is called once per frame
     void Update()
     {
-        _recast_time += Time.deltaTime;
-        _smash_recast_time += Time.deltaTime;
-        _upperCutSmash_recast_time += Time.deltaTime;
-        _sting_recast_time += Time.deltaTime;
-        _groundAttack_recast_time += Time.deltaTime;
+        dash_recast_time += Time.deltaTime;
+
+        for (int i = 0; i < skilldata.Length;i++)
+        {
+            skilldata[i].recast_time += Time.deltaTime;
+        }
 
         _animatorStateInfo = animator.GetCurrentAnimatorStateInfo(0);
 
@@ -90,11 +95,11 @@ public class CommandPlayer : MonoBehaviour
             return;
         }
 
-        if (_recast_time < 1)
+        if (dash_recast_time < 1)
         {
             return;
         }
-        _recast_time = 0;
+        dash_recast_time = 0;
         animator.SetTrigger("PushDash");
         movePlayer._push_power = 20;
         movePlayer._push_time = 0.2f;
@@ -128,12 +133,12 @@ public class CommandPlayer : MonoBehaviour
 
         
 
-        if (_smash_recast_time < skilldata[skillnumber].recast_time)
+        if (skilldata[skillnumber].recast_wait_time > skilldata[skillnumber].recast_time)
         {
             return;
         }
         _sword_col.size += skilldata[skillnumber].sword_size;
-        _smash_recast_time = 0;
+        skilldata[skillnumber].recast_time = 0;
         animator.SetTrigger(skilldata[skillnumber].skill_name_forAnim);
        
 

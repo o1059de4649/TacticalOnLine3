@@ -10,6 +10,10 @@ using Photon.Pun;
 
 public class MovePlayer : MonoBehaviourPunCallbacks, IPunObservable
 {
+    public string user_name;
+    public GameObject myplayer;
+    public Canvas user_name_canvas;
+    public Text user_name_text;
     public float _maxLife = 14500;
     public float _life = 14500;
 
@@ -46,6 +50,8 @@ public class MovePlayer : MonoBehaviourPunCallbacks, IPunObservable
 
     public PSMeshRendererUpdater superArmor_effect_PS;
 
+    public GameObject skillOptionBotton;
+
    public void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info)
     {
         if (stream.IsWriting)
@@ -58,6 +64,7 @@ public class MovePlayer : MonoBehaviourPunCallbacks, IPunObservable
             stream.SendNext(_teamNumber);
             stream.SendNext(isStun);
             stream.SendNext(isSuperArmor);
+            stream.SendNext(user_name);
 
         }
         else
@@ -70,6 +77,7 @@ public class MovePlayer : MonoBehaviourPunCallbacks, IPunObservable
             _teamNumber = (int)stream.ReceiveNext();
             isStun = (bool)stream.ReceiveNext();
             isSuperArmor = (bool)stream.ReceiveNext();
+            user_name = (string)stream.ReceiveNext();
         }
     }
 
@@ -84,6 +92,9 @@ public class MovePlayer : MonoBehaviourPunCallbacks, IPunObservable
         
 
         this.gameObject.name = this.gameObject.name.Replace("(Clone)", "");
+
+        
+
         anim = GetComponentInChildren<Animator>();
 
         rb = GetComponent<Rigidbody>();
@@ -98,15 +109,15 @@ public class MovePlayer : MonoBehaviourPunCallbacks, IPunObservable
         if (photonView.IsMine)
         {
             this.gameObject.name = "MyPlayer";
-           
+          
 
             player_camera.enabled = true;
             this.gameObject.GetComponentInChildren<Canvas>().enabled = true;
 
-            
+            user_name_canvas.GetComponent<Canvas>().enabled = false;
         }
 
-
+        
     }
 
    
@@ -119,6 +130,10 @@ public class MovePlayer : MonoBehaviourPunCallbacks, IPunObservable
     // Update is called once per frame
     void Update()
         {
+        if(!myplayer) myplayer = GameObject.Find("MyPlayer");
+
+        user_name_text.text = user_name;
+        user_name_canvas.gameObject.transform.LookAt(myplayer.transform);
 
         if (isSuperArmor)
         {
@@ -154,7 +169,13 @@ public class MovePlayer : MonoBehaviourPunCallbacks, IPunObservable
 
         //Stun処理
         if (isStun) {
-            
+
+            if (_animatorStateInfo.IsName("Base Layer.Fall"))
+            {
+                isStun = false;
+                stun_time = 0;
+            }
+
             stun_time += Time.deltaTime;
             if (stun_time > stun_hold_time) {
                 isStun = false;
@@ -366,6 +387,7 @@ public class MovePlayer : MonoBehaviourPunCallbacks, IPunObservable
                 anim.SetTrigger("Fall");
                 _up_Power_save = _up_Power;
                 FallOn(_up_Power_save);
+                anim.SetBool("Arrive", false);
             }
 
           
@@ -383,6 +405,7 @@ public class MovePlayer : MonoBehaviourPunCallbacks, IPunObservable
                         _up_Power_save = _up_Power;
                         FallOn(_up_Power_save);
                         anim.SetTrigger("Fall");
+                        anim.SetBool("Arrive", false);
                     }
                     else
                     {
@@ -406,7 +429,7 @@ public class MovePlayer : MonoBehaviourPunCallbacks, IPunObservable
            
 
             FallOn(_up_Power_save);
-          
+            anim.SetBool("Arrive", false);
         }
 
         if (isGroundSkill && !isGroundDown)//地面ダウン状態でないときに、地面スキルを受ける
@@ -416,8 +439,9 @@ public class MovePlayer : MonoBehaviourPunCallbacks, IPunObservable
             if (!isStrongSkill)
             {
                 FallOn(_up_Power_save);
+                anim.SetBool("Arrive", false);
             }
-          
+           
         }
     }
 
@@ -475,9 +499,17 @@ public class MovePlayer : MonoBehaviourPunCallbacks, IPunObservable
         }
     }
 
+    public void OnTriggerEnter(Collider other)
+    {
+        if (other.gameObject.name == "SkillMan")
+        {
+            skillOptionBotton.SetActive(true);
+        }
+    }
+
     public void OnTriggerStay(Collider other)
     {
-        if (other.gameObject.tag == "LifeBall")
+        if (other.gameObject.tag == "LifeBall" && photonView.IsMine)
         {
             _life += 10;
         }

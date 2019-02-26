@@ -3536,6 +3536,7 @@ GameObject:
   - component: {fileID: 114902893950341806}
   - component: {fileID: 65770743064045322}
   - component: {fileID: 114017827474598674}
+  - component: {fileID: 114852629643139728}
   m_Layer: 0
   m_Name: IceRockCollision
   m_TagString: Ice
@@ -44883,6 +44884,19 @@ MonoBehaviour:
   DisableOnMobiles: 1
   RenderMobileDistortion: 0
   ParticleBudgetForMobiles: 0.5
+--- !u!114 &114852629643139728
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 173866}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: dcb14143d68606b49854d13ed68e21be, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _destoy_time: 8
+  swordCon: {fileID: 114017827474598674}
 --- !u!114 &114855276558221850
 MonoBehaviour:
   m_ObjectHideFlags: 1

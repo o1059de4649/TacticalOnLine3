@@ -10,13 +10,13 @@ public class DataBaseScript : MonoBehaviourPunCallbacks,IPunObservable
     // Start is called before the first frame update
     void Start()
     {
-        
+       
     }
 
     // Update is called once per frame
     void Update()
     {
-        
+        _TeamNumber = StaticDataBase._TeamNumber;
     }
 
     public void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info)

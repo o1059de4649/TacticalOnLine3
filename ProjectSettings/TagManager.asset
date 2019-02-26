@@ -10,6 +10,7 @@ TagManager:
   - Team2Player
   - Ice
   - LifeBall
+  - Plane
   layers:
   - Default
   - TransparentFX

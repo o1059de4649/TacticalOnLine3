@@ -45,6 +45,7 @@ namespace Photon.Pun.Demo.Asteroids
         public GameObject myplayer, loginUI;
         public int _TeamNumber;
         public GameObject start_Camera;
+        public Text teamNumber_errortext;
         #region UNITY
 
         public void Awake()
@@ -55,8 +56,26 @@ namespace Photon.Pun.Demo.Asteroids
             roomListEntries = new Dictionary<string, GameObject>();
 
             PlayerNameInput.text = "Player " + Random.Range(1000, 10000);
+
+            //名前セーブデータ
+            if (PlayerPrefs.HasKey("PlayerName"))
+            {
+                PlayerNameInput.text = PlayerPrefs.GetString("PlayerName");
+            }
         }
 
+        private void Update()
+        {
+            if (_TeamNumber == 0)
+            {
+                teamNumber_errortext.text = "チームを選択してください";
+            }
+
+            if (_TeamNumber >= 1)
+            {
+                teamNumber_errortext.text = "あなたのチームは" + _TeamNumber.ToString() + "です";
+            }
+        }
         #endregion
 
         #region PUN CALLBACKS
@@ -162,10 +181,40 @@ namespace Photon.Pun.Demo.Asteroids
 
             myplayer.GetComponent<MovePlayer>()._teamNumber = _TeamNumber;
             start_Camera.GetComponent<Camera>().enabled = false;
+            myplayer.GetComponent<MovePlayer>().user_name = PlayerNameInput.text;
 
           
                 myplayer.transform.position = GameObject.Find("Team"+ _TeamNumber.ToString()+"ReSpawnPos").gameObject.transform.position;
             
+            //カスタム箇所
+        }
+
+        public void JoinRoomCustomMethod()
+        {
+            //カスタム箇所
+            GameObject.Find("DataBase").GetComponent<DataBaseScript>()._TeamNumber = _TeamNumber;
+
+            loginUI.SetActive(false);
+
+            myplayer = PhotonNetwork.Instantiate(
+
+           "Player",
+
+           new Vector3(0f, 3f, 0f),
+
+           Quaternion.identity,
+
+           0
+
+        );
+            _TeamNumber = StaticDataBase._TeamNumber;
+            myplayer.GetComponent<MovePlayer>()._teamNumber = _TeamNumber;
+            start_Camera.GetComponent<Camera>().enabled = false;
+            myplayer.GetComponent<MovePlayer>().user_name = PlayerNameInput.text;
+
+
+            myplayer.transform.position = GameObject.Find("Team" + _TeamNumber.ToString() + "ReSpawnPos").gameObject.transform.position;
+
             //カスタム箇所
         }
 
@@ -272,7 +321,16 @@ namespace Photon.Pun.Demo.Asteroids
 
         public void OnLoginButtonClicked()
         {
+            if (_TeamNumber == 0)
+            {
+
+                return;
+            }
+
             string playerName = PlayerNameInput.text;
+
+            //save name
+            PlayerPrefs.SetString("PlayerName", PlayerNameInput.text);
 
             if (!playerName.Equals(""))
             {

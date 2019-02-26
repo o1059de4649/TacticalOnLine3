@@ -32,7 +32,7 @@ public class SkillSlotSetSkill : MonoBehaviour
         
     }
 
-    void SkillSetUpStart()
+  public  void SkillSetUpStart()
     {
         save_data_All = PlayerPrefs.GetString("SkillNote0", "Smash") + "/" + PlayerPrefs.GetString("SkillNote1", "Smash") + "/" + PlayerPrefs.GetString("SkillNote2", "Smash") + "/" + PlayerPrefs.GetString("SkillNote3", "Smash");
         splitSkill = save_data_All.Split(new[] { '/' }, StringSplitOptions.RemoveEmptyEntries);
@@ -135,7 +135,7 @@ public class SkillSlotSetSkill : MonoBehaviour
         splitSkill[0] == null||splitSkill[1] == null ||splitSkill[2] == null ||splitSkill[3] == null ||
             splitSkill[4] == null ||splitSkill[5] == null ||splitSkill[6] == null ||splitSkill[7] == null ||
              splitSkill[8] == null || splitSkill[9] == null || splitSkill[10] == null || splitSkill[11] == null ||
-             splitSkill[12] == null || splitSkill[13] == null || splitSkill[14] == null || splitSkill[15] == null 
+             splitSkill[12] == null || splitSkill[13] == null || splitSkill[14] == null || splitSkill[15] == null ||option.isFirstSave
             )
         {
             return;

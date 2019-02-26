@@ -1,66 +1,98 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
+using Photon.Pun;
 
-public class OptionControl : MonoBehaviour
-{
-   public GameObject[] childObj;
-    public GameObject[] skill_panels;
-    public string[] skill_save_data;
-    bool show_mode = false;
-    // Start is called before the first frame update
-    void Start()
+    public class OptionControl : MonoBehaviourPunCallbacks
     {
-       
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
-
-    public void OffToOn()
-    {
-        if (!show_mode)
+        public GameObject[] childObj;
+        public GameObject[] skill_panels;
+        public string[] skill_save_data;
+        bool show_mode = false;
+        public bool isFirstSave = true;
+        // Start is called before the first frame update
+        void Start()
         {
-            for (int i = 0;i < childObj.Length;i++)
+
+        }
+
+        // Update is called once per frame
+        void Update()
+        {
+
+        }
+
+        public void OffToOn()
+        {
+            if (!show_mode)
             {
-                childObj[i].SetActive(true);
+                for (int i = 0; i < childObj.Length; i++)
+                {
+                    childObj[i].SetActive(true);
+                }
+                show_mode = true;
+
+
+
             }
-            show_mode = true;
-
-
-
-        }
-        else
-        {
-            for (int i = 0; i < childObj.Length; i++)
+            else
             {
-                childObj[i].SetActive(false);
+                for (int i = 0; i < childObj.Length; i++)
+                {
+                    childObj[i].SetActive(false);
+                }
+                show_mode = false;
+
+                Save();
             }
-            show_mode = false;
 
-            Save();
+
+
+
+
         }
 
-
-
-      
-        
-    }
-
-   public void Save()
-    {
-        for (int i = 0; i < 4; i++)
+        public void Save()
         {
-            skill_save_data[i] =
-            skill_panels[i * 4].GetComponent<DropObject>().skill_name + "/" +
-            skill_panels[1 + i * 4].GetComponent<DropObject>().skill_name + "/" +
-            skill_panels[2 + i * 4].GetComponent<DropObject>().skill_name + "/" +
-            skill_panels[3 + i * 4].GetComponent<DropObject>().skill_name;
-            PlayerPrefs.SetString("SkillNote" + i.ToString(), skill_save_data[i]);
+            if (!PlayerPrefs.HasKey("SkillNote0"))
+            {
+                isFirstSave = true;
+            }
+            else
+            {
+                isFirstSave = false;
+            }
 
+
+            for (int i = 0; i < 4; i++)
+            {
+
+
+                skill_save_data[i] =
+                skill_panels[i * 4].GetComponent<DropObject>().skill_name + "/" +
+                skill_panels[1 + i * 4].GetComponent<DropObject>().skill_name + "/" +
+                skill_panels[2 + i * 4].GetComponent<DropObject>().skill_name + "/" +
+                skill_panels[3 + i * 4].GetComponent<DropObject>().skill_name;
+                PlayerPrefs.SetString("SkillNote" + i.ToString(), skill_save_data[i]);
+
+
+            }
+
+
+            //初回時
+            if (isFirstSave)
+            {
+            GetComponentInParent<SkillSlotSetSkill>().SkillSetUpStart();
+
+
+
+                
+            }
+        }
+
+        void FirstSkillSetScene()
+        {
+            SceneManager.LoadScene("Scene/City");
         }
     }
-}

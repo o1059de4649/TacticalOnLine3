@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Photon.Pun;
 using Random = UnityEngine.Random;
 
 public class RFX4_PhysicsMotion : MonoBehaviour
@@ -113,7 +114,7 @@ public class RFX4_PhysicsMotion : MonoBehaviour
 
             if (EffectOnCollision != null)
             {
-                var instance = Instantiate(EffectOnCollision, contact.point, new Quaternion()) as GameObject;
+                var instance = PhotonNetwork.Instantiate(EffectOnCollision.name, contact.point, new Quaternion()) as GameObject;
 
                 if (HUE > -0.9f) RFX4_ColorHelper.ChangeObjectColorByHUE(instance, HUE);
                 

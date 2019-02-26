@@ -80,6 +80,7 @@ GameObject:
   - component: {fileID: 114313071016046840}
   - component: {fileID: 114068870138830046}
   - component: {fileID: 65627867015472520}
+  - component: {fileID: 114833434227352402}
   m_Layer: 0
   m_Name: ManaRainCollision
   m_TagString: Untagged
@@ -9685,6 +9686,19 @@ MonoBehaviour:
   IsLoop: 0
   UseShadowsIfPossible: 1
   canUpdate: 0
+--- !u!114 &114833434227352402
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 145962}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: dcb14143d68606b49854d13ed68e21be, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _destoy_time: 8
+  swordCon: {fileID: 114313071016046840}
 --- !u!114 &114839728965363568
 MonoBehaviour:
   m_ObjectHideFlags: 1

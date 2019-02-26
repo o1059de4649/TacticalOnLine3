@@ -28251,7 +28251,7 @@ MonoBehaviour:
   isGroundSkill: 1
   _up_Power: 200
   isEffect: 1
-  onTime: 0
+  onTime: 0.1
   offTime: 2
   boxCollider: {fileID: 65315507343073532}
   _teamNumber: 0
@@ -28471,6 +28471,7 @@ MonoBehaviour:
   OwnershipTransfer: 0
   ObservedComponents:
   - {fileID: 114897683658491172}
+  - {fileID: 114840723886874044}
   viewIdField: 0
   InstantiationId: 2
   isRuntimeInstantiated: 0

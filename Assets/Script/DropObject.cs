@@ -77,6 +77,9 @@ public class DropObject : MonoBehaviour, IDropHandler, IPointerEnterHandler, IPo
     }
     public void OnDrop(PointerEventData pointerEventData)
     {
+
+        if (iconImage.sprite.name == "guriguri") return;
+
         Image droppedImage = pointerEventData.pointerDrag.GetComponent<Image>();
         iconImage.sprite = droppedImage.sprite;
         nowSprite = droppedImage.sprite;
