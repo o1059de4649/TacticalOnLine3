@@ -28079,7 +28079,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: dcb14143d68606b49854d13ed68e21be, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _destoy_time: 8
+  _destoy_time: 3
   swordCon: {fileID: 114840723886874044}
 --- !u!114 &114804115815113540
 MonoBehaviour:

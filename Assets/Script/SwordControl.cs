@@ -40,8 +40,9 @@ public class SwordControl : MonoBehaviourPunCallbacks, IPunObservable
             Invoke("ColliderOffSwich", offTime);
         }
 
-        if (this.gameObject.name == "Sword1")
+        if (this.gameObject.tag == "Sword")
         {
+            _teamNumber = GetComponentInParent<MovePlayer>()._teamNumber;
             return;
         }
 

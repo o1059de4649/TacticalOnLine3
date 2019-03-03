@@ -51,7 +51,8 @@ public class MovePlayer : MonoBehaviourPunCallbacks, IPunObservable
     public PSMeshRendererUpdater superArmor_effect_PS;
 
     public GameObject skillOptionBotton;
-
+    public GameObject p_camera;//Cavas名前表示専用
+    public GameObject room_maaster_text;
    public void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info)
     {
         if (stream.IsWriting)
@@ -114,10 +115,17 @@ public class MovePlayer : MonoBehaviourPunCallbacks, IPunObservable
             player_camera.enabled = true;
             this.gameObject.GetComponentInChildren<Canvas>().enabled = true;
 
-            user_name_canvas.GetComponent<Canvas>().enabled = false;
+            //user_name_canvas.GetComponent<Canvas>().enabled = false;
+            if (PhotonNetwork.IsMasterClient)
+            {
+
+                photonView.RPC("RoomMasterCanvasOn", RpcTarget.AllBufferedViaServer);
+
+            }
         }
 
-        
+       
+
     }
 
    
@@ -127,14 +135,30 @@ public class MovePlayer : MonoBehaviourPunCallbacks, IPunObservable
        
     }
 
+    [PunRPC]
+    void RoomMasterCanvasOn()
+    {
+        room_maaster_text.SetActive(true);
+
+        
+       
+    }
     // Update is called once per frame
     void Update()
         {
-        if(!myplayer) myplayer = GameObject.Find("MyPlayer");
-
+        
+        //ネームキャンバス回転処理
+        if (!myplayer) {
+            myplayer = GameObject.Find("MyPlayer");
+            p_camera = myplayer.GetComponent<MovePlayer>().player_camera.gameObject;
+        } 
         user_name_text.text = user_name;
-        user_name_canvas.gameObject.transform.LookAt(myplayer.transform);
+        user_name_canvas.gameObject.transform.LookAt(p_camera.transform);
+        if (myplayer.tag != this.gameObject.tag) user_name_text.color = new Color(255f / 255f, 0f / 255f, 0f / 255f);
+        if (myplayer.tag == this.gameObject.tag) user_name_text.color = new Color(0f / 255f, 0f / 255f, 255f / 255f); 
 
+
+        //スーパーアーマー処理
         if (isSuperArmor)
         {
             superArmor_effect_PS.gameObject.SetActive(true);
@@ -154,7 +178,7 @@ public class MovePlayer : MonoBehaviourPunCallbacks, IPunObservable
         //死亡処理
         if (_life <= 0) {
             _life = _maxLife;
-            transform.position = GameObject.Find("Team" + _teamNumber.ToString() +"RespawnPos").gameObject.transform.position;
+            transform.position = GameObject.Find("Team" + _teamNumber.ToString() +"ReSpawnPos").gameObject.transform.position;
 
             if (this.gameObject.tag == "Team1Player") {
                 GameObject.Find("DataBase").GetComponent<DataBaseScript>()._team2Point++;
@@ -539,5 +563,10 @@ public class MovePlayer : MonoBehaviourPunCallbacks, IPunObservable
 
     }
 
-
+    [PunRPC]
+    public void OnDestroy()
+    {
+        Destroy(player_camera.gameObject.transform.parent.transform);
+        Destroy(this.gameObject);
+    }
 }

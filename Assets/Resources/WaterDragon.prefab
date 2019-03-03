@@ -1775,9 +1775,9 @@ MonoBehaviour:
   isStrongSkill: 1
   isGroundSkill: 1
   _up_Power: 200
-  isEffect: 0
+  isEffect: 1
   onTime: 0
-  offTime: 2
+  offTime: 5
   boxCollider: {fileID: 65042475746925988}
   _teamNumber: 0
   isDragon: 1

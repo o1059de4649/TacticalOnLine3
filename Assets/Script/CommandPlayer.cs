@@ -200,34 +200,7 @@ public class CommandPlayer : MonoBehaviour
         movePlayer.isSuperArmor = false;
     }
 
-    public void UpperCutSmash()
-    {
-        if (_animatorStateInfo.IsTag("Damage") || movePlayer.isSkillMoving || _animatorStateInfo.IsName("Base Layer.PushDash"))
-        {
-            return;
-        }
-        //打ち上げ威力と打ち上げ属性
-        swordControl._up_Power = 500;
-        swordControl.isStrongSkill = true;
-        swordControl.isGroundSkill = true;
-
-        if (_upperCutSmash_recast_time < 1)
-        {
-            return;
-        }
-        _upperCutSmash_recast_time = 0;
-        animator.SetTrigger("UpperCut");
-        _sword_col.enabled = true;
-        _sword_col.size *= 2;
-       
-        
-        Invoke("SwordColOff", 0.7f);
-
-        movePlayer.FallOn(400);
-
-        movePlayer._mp -= 100;
-        Instantiate(effekseer_obj[0],this.transform.position,Quaternion.identity);
-    }
+   
 
     [PunRPC]
     public void SwordColliderPun(int skillnumber) {

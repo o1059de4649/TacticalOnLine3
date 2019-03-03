@@ -2955,7 +2955,7 @@ MonoBehaviour:
   ObservedComponents:
   - {fileID: 114661477612472206}
   viewIdField: 0
-  InstantiationId: 4
+  InstantiationId: 2
   isRuntimeInstantiated: 0
 --- !u!114 &114444150014945422
 MonoBehaviour:
@@ -3344,11 +3344,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 250e1a9880e64421096be6cf5ec76210, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _power: 1000
+  _power: 1500
   isStrongSkill: 1
   isGroundSkill: 1
-  _up_Power: 0
-  isEffect: 0
+  _up_Power: 500
+  isEffect: 1
   onTime: 0
   offTime: 5
   boxCollider: {fileID: 65480462532135314}
@@ -3519,7 +3519,7 @@ MonoBehaviour:
   ObservedComponents:
   - {fileID: 114767956341688020}
   viewIdField: 0
-  InstantiationId: 5
+  InstantiationId: 3
   isRuntimeInstantiated: 0
 --- !u!114 &114840212533792848
 MonoBehaviour:

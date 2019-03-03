@@ -2749,13 +2749,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 250e1a9880e64421096be6cf5ec76210, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _power: 0
-  isStrongSkill: 0
-  isGroundSkill: 0
-  _up_Power: 0
-  isEffect: 0
+  _power: 1800
+  isStrongSkill: 1
+  isGroundSkill: 1
+  _up_Power: 600
+  isEffect: 1
   onTime: 0
-  offTime: 0
+  offTime: 3
   boxCollider: {fileID: 65379017932745662}
   _teamNumber: 0
   isDragon: 0

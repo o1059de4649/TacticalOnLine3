@@ -63,12 +63,7 @@ public class SkillButtonControl : MonoBehaviour,IPointerClickHandler
             Invoke("SetActiveOn", 5);
         }
 
-        if (this.gameObject.name == "UpperCutButton")
-        {
-            commandPlayer.UpperCutSmash();
-            Invoke("SetActiveOff", _button_hideTime);
-            Invoke("SetActiveOn", 5);
-        }
+        
         isClicked = true;
     }
 

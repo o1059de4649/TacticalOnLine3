@@ -28,7 +28,7 @@ public class RFX4_RaycastCollision : MonoBehaviour
     private bool canUpdate;
 
     public event EventHandler<RFX4_PhysicsMotion.RFX4_CollisionInfo> CollisionEnter;
-
+    public PhotonView photonView;
     void Awake()
     {
         distanceParticles = transform.root.GetComponentsInChildren<ParticleSystem>();
@@ -88,27 +88,31 @@ public class RFX4_RaycastCollision : MonoBehaviour
                 foreach (var effect in Effects) {
                     if (effect != null)
                     {
-                        var instance = PhotonNetwork.Instantiate(effect.name, position, new Quaternion()) as GameObject;
-                        //custom
-                        instance.GetComponent<SwordControl>()._teamNumber = GameObject.Find("DataBase").GetComponent<DataBaseScript>()._TeamNumber;
-                        var effectSettings = instance.GetComponent<RFX4_EffectSettings>();
-                        var effectSettingsRoot = GetComponentInParent<RFX4_EffectSettings>();
-                        if (effectSettings != null && effectSettingsRoot != null)
+
+                        if (photonView.IsMine)
                         {
-                            //effectSettings.EffectQuality = effectSettingsRoot.EffectQuality;
-                            // effectSettings.ForceInitialize();
+                            var instance = PhotonNetwork.Instantiate(effect.name, position, new Quaternion()) as GameObject;
+                            //custom
+                            instance.GetComponent<SwordControl>()._teamNumber = GameObject.Find("DataBase").GetComponent<DataBaseScript>()._TeamNumber;
+                            var effectSettings = instance.GetComponent<RFX4_EffectSettings>();
+                            var effectSettingsRoot = GetComponentInParent<RFX4_EffectSettings>();
+                            if (effectSettings != null && effectSettingsRoot != null)
+                            {
+                                //effectSettings.EffectQuality = effectSettingsRoot.EffectQuality;
+                                // effectSettings.ForceInitialize();
+                            }
+
+                            CollidedInstances.Add(instance);
+
+                            if (HUE > -0.9f) RFX4_ColorHelper.ChangeObjectColorByHUE(instance, HUE);
+
+                            if (!IsWorldSpace)
+                                instance.transform.parent = transform;
+                            if (UseNormalRotation)
+                                instance.transform.LookAt(raycastHit.point + raycastHit.normal);
+                            if (DestroyTime > 0.0001f)
+                                Destroy(instance, DestroyTime);
                         }
-
-                        CollidedInstances.Add(instance);
-
-                        if (HUE > -0.9f) RFX4_ColorHelper.ChangeObjectColorByHUE(instance, HUE);
-                    
-                        if (!IsWorldSpace)
-                            instance.transform.parent = transform;
-                        if (UseNormalRotation)
-                            instance.transform.LookAt(raycastHit.point + raycastHit.normal);
-                        if (DestroyTime > 0.0001f)
-                            Destroy(instance, DestroyTime);
                     }
                 }
             else

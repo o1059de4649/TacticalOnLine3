@@ -686,7 +686,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: dcb14143d68606b49854d13ed68e21be, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _destoy_time: 8
+  _destoy_time: 6
   swordCon: {fileID: 0}
 --- !u!114 &114582327769422616
 MonoBehaviour:
@@ -712,6 +712,7 @@ MonoBehaviour:
   DestroyAfterDisabling: 0
   HUE: -1
   CollidedInstances: []
+  photonView: {fileID: 114159678587316370}
 --- !u!114 &114815422718657108
 MonoBehaviour:
   m_ObjectHideFlags: 1

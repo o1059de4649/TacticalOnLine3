@@ -34,5 +34,7 @@ MonoBehaviour:
   - OnDestroySelf
   - RespawnSpaceship
   - SwordColliderPun
+  - OnDestroy
+  - RoomMasterCanvasOn
   DisableAutoOpenWizard: 1
   ShowSettings: 0

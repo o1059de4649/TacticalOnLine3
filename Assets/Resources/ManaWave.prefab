@@ -377,7 +377,7 @@ BoxCollider:
   m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 1, y: 1, z: 1}
+  m_Size: {x: 3, y: 1, z: 1}
   m_Center: {x: 0, y: 0, z: 0}
 --- !u!82 &82598093646837202
 AudioSource:
@@ -837,7 +837,7 @@ MonoBehaviour:
   _power: 200
   isStrongSkill: 1
   isGroundSkill: 1
-  _up_Power: 300
+  _up_Power: 500
   isEffect: 1
   onTime: 0
   offTime: 2

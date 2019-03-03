@@ -861,7 +861,7 @@ MonoBehaviour:
   _power: 1000
   isStrongSkill: 1
   isGroundSkill: 1
-  _up_Power: 100
+  _up_Power: 300
   isEffect: 1
   onTime: 0.1
   offTime: 2

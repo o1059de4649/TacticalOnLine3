@@ -77,6 +77,23 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
+--- !u!1 &1020565807501152
+GameObject:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  serializedVersion: 5
+  m_Component:
+  - component: {fileID: 224773904916907028}
+  - component: {fileID: 222933760678630828}
+  - component: {fileID: 114626693935047902}
+  m_Layer: 9
+  m_Name: NameText
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
 --- !u!1 &1023079829701676
 GameObject:
   m_ObjectHideFlags: 1
@@ -593,12 +610,12 @@ GameObject:
   - component: {fileID: 222087606880967954}
   - component: {fileID: 114627960201360968}
   m_Layer: 9
-  m_Name: NameText
+  m_Name: RoomMasterText
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!1 &1242165746378546
 GameObject:
   m_ObjectHideFlags: 1
@@ -1379,10 +1396,11 @@ GameObject:
   - component: {fileID: 33873912444584318}
   - component: {fileID: 23185506651445570}
   - component: {fileID: 65138353530688746}
+  - component: {fileID: 114613246577509758}
   - component: {fileID: 114236949305100864}
   m_Layer: 0
   m_Name: Sword1
-  m_TagString: Untagged
+  m_TagString: Sword
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -2798,7 +2816,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1492465778780476}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: 0, y: 0, z: -3.24}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 4381138924189112}
@@ -4121,8 +4139,8 @@ BoxCollider:
   m_IsTrigger: 1
   m_Enabled: 0
   serializedVersion: 2
-  m_Size: {x: 1.6732585, y: 0.29894525, z: 0.27}
-  m_Center: {x: -0.5252925, y: 0.0016767321, z: 0.00044324948}
+  m_Size: {x: 2.5, y: 0.66, z: 0.93}
+  m_Center: {x: -0.88, y: 0.0016767321, z: 0.00044324948}
 --- !u!81 &81310599435314752
 AudioListener:
   m_ObjectHideFlags: 1
@@ -4462,6 +4480,25 @@ MonoBehaviour:
     instantiateObj: {fileID: 0}
     delay_instantiate_time: 0
     isBallEffect: 0
+  - skill_name_forAnim: UpperCut
+    isStrongSkill: 1
+    isGroundSkill: 1
+    _swordPower: 800
+    up_power: 400
+    recast_time: 0
+    recast_wait_time: 8
+    sword_OnTime: 0
+    sword_OffTime: 1
+    push_power: 0
+    push_time: 0
+    sword_size: {x: 2, y: 1, z: 1}
+    sword_pos: {x: 0, y: 0, z: 0}
+    _mp: 400
+    isInstantiate: 0
+    effect_position: {fileID: 0}
+    instantiateObj: {fileID: 0}
+    delay_instantiate_time: 0
+    isBallEffect: 0
   animator: {fileID: 0}
   movePlayer: {fileID: 0}
   _skill_up_addForce_Power: 0
@@ -4740,7 +4777,7 @@ MonoBehaviour:
   - {fileID: 114995529584559362}
   - {fileID: 114357068456429288}
   viewIdField: 0
-  InstantiationId: 4
+  InstantiationId: 3
   isRuntimeInstantiated: 0
 --- !u!114 &114123172641652250
 MonoBehaviour:
@@ -5375,7 +5412,7 @@ MonoBehaviour:
   user_name: 
   myplayer: {fileID: 0}
   user_name_canvas: {fileID: 223152803805558792}
-  user_name_text: {fileID: 114627960201360968}
+  user_name_text: {fileID: 114626693935047902}
   _maxLife: 14500
   _life: 14500
   _maxMp: 4500
@@ -5413,6 +5450,8 @@ MonoBehaviour:
   stun_hold_time: 1
   superArmor_effect_PS: {fileID: 114301122371243280}
   skillOptionBotton: {fileID: 1934409765862810}
+  p_camera: {fileID: 0}
+  room_maaster_text: {fileID: 1234222583800004}
 --- !u!114 &114363825106585920
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -6006,6 +6045,27 @@ MonoBehaviour:
   m_FillAmount: 1
   m_FillClockwise: 1
   m_FillOrigin: 0
+--- !u!114 &114613246577509758
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1587977384791062}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: aa584fbee541324448dd18d8409c7a41, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ObservedComponentsFoldoutOpen: 1
+  Group: 0
+  prefixField: -1
+  Synchronization: 3
+  OwnershipTransfer: 0
+  ObservedComponents:
+  - {fileID: 114236949305100864}
+  viewIdField: 0
+  InstantiationId: 2
+  isRuntimeInstantiated: 0
 --- !u!114 &114614668674413660
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -6060,6 +6120,39 @@ MonoBehaviour:
   m_FillAmount: 1
   m_FillClockwise: 1
   m_FillOrigin: 0
+--- !u!114 &114626693935047902
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1020565807501152}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 708705254, guid: f70555f144d8491a825f0804e09c671c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Material: {fileID: 0}
+  m_Color: {r: 1, g: 0.42313176, b: 0, a: 1}
+  m_RaycastTarget: 1
+  m_OnCullStateChanged:
+    m_PersistentCalls:
+      m_Calls: []
+    m_TypeName: UnityEngine.UI.MaskableGraphic+CullStateChangedEvent, UnityEngine.UI,
+      Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
+  m_FontData:
+    m_Font: {fileID: 10102, guid: 0000000000000000e000000000000000, type: 0}
+    m_FontSize: 31
+    m_FontStyle: 0
+    m_BestFit: 0
+    m_MinSize: 0
+    m_MaxSize: 40
+    m_Alignment: 4
+    m_AlignByGeometry: 0
+    m_RichText: 1
+    m_HorizontalOverflow: 0
+    m_VerticalOverflow: 0
+    m_LineSpacing: 1
+  m_Text: PlayerName
 --- !u!114 &114627083338501840
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -6124,7 +6217,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 0.19607843, g: 0.19607843, b: 0.19607843, a: 1}
+  m_Color: {r: 0.107794166, g: 1, b: 0, a: 1}
   m_RaycastTarget: 1
   m_OnCullStateChanged:
     m_PersistentCalls:
@@ -6133,9 +6226,9 @@ MonoBehaviour:
       Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
   m_FontData:
     m_Font: {fileID: 10102, guid: 0000000000000000e000000000000000, type: 0}
-    m_FontSize: 14
+    m_FontSize: 25
     m_FontStyle: 0
-    m_BestFit: 0
+    m_BestFit: 1
     m_MinSize: 0
     m_MaxSize: 40
     m_Alignment: 4
@@ -6144,7 +6237,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: PlayerName
+  m_Text: "\u30EB\u30FC\u30E0\u30DE\u30B9\u30BF\u30FC"
 --- !u!114 &114629909779069018
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -16697,6 +16790,12 @@ CanvasRenderer:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1460665389757102}
+--- !u!222 &222933760678630828
+CanvasRenderer:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1020565807501152}
 --- !u!222 &222947279030187110
 CanvasRenderer:
   m_ObjectHideFlags: 1
@@ -16867,6 +16966,7 @@ RectTransform:
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 0.01, y: 0.01, z: 1}
   m_Children:
+  - {fileID: 224773904916907028}
   - {fileID: 224165468822499270}
   m_Father: {fileID: 4111708353598900}
   m_RootOrder: 11
@@ -16954,17 +17054,17 @@ RectTransform:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1234222583800004}
-  m_LocalRotation: {x: 0, y: 1, z: 0, w: 0}
+  m_LocalRotation: {x: -0, y: 1, z: -0, w: 0}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 224124275241629178}
-  m_RootOrder: 0
+  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 180, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0, y: -6.3}
-  m_SizeDelta: {x: 120, y: 30}
+  m_AnchoredPosition: {x: 0, y: 25}
+  m_SizeDelta: {x: 240, y: 60}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!224 &224180984146699322
 RectTransform:
@@ -17605,6 +17705,24 @@ RectTransform:
   m_AnchorMax: {x: 0.5, y: 0}
   m_AnchoredPosition: {x: -374, y: 488}
   m_SizeDelta: {x: 80, y: 80}
+  m_Pivot: {x: 0.5, y: 0.5}
+--- !u!224 &224773904916907028
+RectTransform:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1020565807501152}
+  m_LocalRotation: {x: 0, y: 1, z: 0, w: 0}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 224124275241629178}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 180, z: 0}
+  m_AnchorMin: {x: 0.5, y: 0.5}
+  m_AnchorMax: {x: 0.5, y: 0.5}
+  m_AnchoredPosition: {x: 0, y: -6.3}
+  m_SizeDelta: {x: 240, y: 60}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!224 &224785857570082894
 RectTransform:
